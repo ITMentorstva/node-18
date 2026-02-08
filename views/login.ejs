@@ -1,6 +1,10 @@
 
 <form method="POST" action="/auth/login">
 
+    <% if(error) { %>
+        <p><%- error %></p>
+    <% } %>
+
     <input type="text" name="email" placeholder="Unesite vas email" />
     <input type="password" name="password" placeholder="Unesite vas password" />
     <button>Login</button>

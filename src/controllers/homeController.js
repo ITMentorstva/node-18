@@ -6,10 +6,15 @@ module.exports = {
     },
 
     showLogin: (req, res) => {
-        res.render("login");
+        const error = req.session.error;
+        req.session.error = null;
+
+        res.render("login", {error});
     },
 
     showRegister: (req, res) => {
-        res.render("register")
+        const error = req.session.error;
+        req.session.error = null;
+        res.render("register", {error})
     }
 };
