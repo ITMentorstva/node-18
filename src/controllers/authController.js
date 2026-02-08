@@ -10,7 +10,7 @@ module.exports = {
 
         const { email, password } = req.body;
 
-        const rows = User.getByEmail(email);
+        const rows = await User.getByEmail(email);
 
         if(rows.length < 1) {
             return saveErrorAndRedirect(req, res, "/login", "This email doesn't exist in our database");
@@ -26,23 +26,27 @@ module.exports = {
 
         req.session.userId = user.id;
         req.session.loggedIn = true;
+        req.session.role = user.role;
 
-        res.send("Success");
+        return req.session.save(() => res.redirect("/dashboard"));
     },
 
     register: async (req, res) => {
         const { name, email, password } = req.body;
 
-        const rows = User.getByEmail(email);
+        const rows = await User.getByEmail(email);
 
         if(rows.length >= 1) {
             return saveErrorAndRedirect(req, res, "/register", "This email is already taken.");
         }
 
-        req.session.userId = User.create(name, email, password);
-        req.session.loggedIn = true;
+        const role = password === 'ADMIN_SIFRA' ? 'admin' : 'user';
 
-        res.send("Works");
+        req.session.userId = await User.create(name, email, password, role);
+        req.session.loggedIn = true;
+        req.session.role = role;
+
+        return req.session.save(() => res.redirect("/dashboard"));
     },
 
     logout: (req, res) => {

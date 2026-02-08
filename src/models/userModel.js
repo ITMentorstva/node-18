@@ -4,9 +4,9 @@ const bcrypt = require("bcrypt");
 
 const User = {
 
-    async create(name, email, password) {
+    async create(name, email, password, role = "user") {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const [result] = await db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, hashedPassword]);
+        const [result] = await db.execute("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)", [name, email, hashedPassword, role]);
         return result.insertId;
     },
 
