@@ -1,0 +1,48 @@
+
+<ul>
+    <% jobs.forEach(job => { %>
+        <li><%= job.name %><a href="/admin/companies/delete/<%= job.id %>">Delete</a></li>
+    <% }) %>
+</ul>
+
+<form action="/admin/jobs/add" method="POST">
+
+    <% if(errors && errors.length > 0) { %>
+        <% errors.forEach(error => { %>
+            <p><%= error.msg %></p>
+        <% }) %>
+    <% } %>
+
+    <label for="user_id">User</label>
+    <select name="user_id" id="user_id">
+        <% users.forEach(user => { %>
+            <option value="<%= user.id %>"><%= user.email %></option>
+        <% }) %>
+    </select>
+
+    <label for="company_id">Company</label>
+    <select name="company_id" id="company_id">
+        <% companies.forEach(company => { %>
+            <option value="<%= company.id %>"><%= company.name %></option>
+        <% }) %>
+    </select>
+
+    <label for="title">Job Title</label>
+    <input type="text" id="title" name="title" maxlength="128" required>
+
+    <label for="salary">Salary</label>
+    <input type="number" id="salary" name="salary" min="0">
+
+    <label for="due_date">Due Date</label>
+    <input type="datetime-local" id="due_date" name="due_date" required>
+
+    <label for="technology">Technologies</label>
+    <select name="technology[]" id="technology" multiple>
+        <% technologies.forEach(technology => { %>
+            <option value="<%= technology.id %>"><%= technology.name %></option>
+        <% }) %>
+    </select>
+
+    <button type="submit">Create Job</button>
+
+</form>

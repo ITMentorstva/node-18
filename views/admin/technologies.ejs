@@ -1,0 +1,14 @@
+
+
+<ul>
+    <% technologies.forEach(technology => { %>
+        <li><%= technology.name %> <a href="/admin/technologies/delete/<%= technology.id %>">Delete</a></li>
+    <% }) %>
+</ul>
+
+<form action="/admin/technologies/add" method="POST">
+
+    <input type="text" placeholder="Enter technology name" required name="name" />
+    <button type="submit">Create</button>
+
+</form>

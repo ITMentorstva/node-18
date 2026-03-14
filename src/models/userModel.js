@@ -13,6 +13,11 @@ const User = {
     async getByEmail(email) {
         const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
         return rows;
+    },
+
+    async getAll() {
+        const [ rows ] = await db.execute("SELECT * FROM users");
+        return rows;
     }
 
 };
